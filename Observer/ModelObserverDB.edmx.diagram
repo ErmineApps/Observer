@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="35b35de487a14002b33e1bdc556c5660" Name="Diagram1">
+        <EntityTypeShape EntityType="ObserverDBModel.Cities" Width="1.5" PointX="3.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.Comments" Width="1.5" PointX="12.375" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.LabelsMap" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.Messages" Width="1.5" PointX="10.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.PhotoViolation" Width="1.5" PointX="12.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.Region" Width="1.5" PointX="0.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.Users" Width="1.5" PointX="3.625" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObserverDBModel.Violations" Width="1.5" PointX="10.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ObserverDBModel.FK_Cities_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_LabelsMap_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_Users_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_Comments_Messages" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_LabelsMap_Violations" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_Messages_Violations" ManuallyRouted="false" />
+        <AssociationConnector Association="ObserverDBModel.FK_PhotoViolation_Violations" ManuallyRouted="false" >
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
