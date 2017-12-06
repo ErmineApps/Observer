@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ObserverDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Region_id" Type="Int32" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <NavigationProperty Name="Region" Relationship="Self.FK_Cities_Region" FromRole="Cities" ToRole="Region" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Message_id" Type="Int32" />
+    <Property Name="Body" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="User_id" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Like" Type="Int32" />
+    <Property Name="Dislaid" Type="Int32" />
+    <Property Name="User_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="LabelsMap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="City_id" Type="Int32" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="Date_creation" Type="DateTime" Precision="3" />
+    <Property Name="Violation_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Body" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="User_id" Type="Int32" />
+    <Property Name="Like" Type="Int32" />
+    <Property Name="Dislaid" Type="Int32" />
+    <Property Name="Violation_id" Type="Int32" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Messages" FromRole="Messages" ToRole="Comments" />
+  </EntityType>
+  <EntityType Name="PhotoViolation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Violation_id" Type="Int32" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Region">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Region" FromRole="Region" ToRole="Cities" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="350" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City_id" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Token" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Anonymous" Type="Boolean" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Violations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="User_id" Type="Int32" />
+    <Property Name="Like" Type="Int32" />
+    <Property Name="Dislaid" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Type_violation" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="LabelsMap" Relationship="Self.FK_LabelsMap_Violations" FromRole="Violations" ToRole="LabelsMap" />
+    <NavigationProperty Name="Messages" Relationship="Self.FK_Messages_Violations" FromRole="Violations" ToRole="Messages" />
+    <NavigationProperty Name="PhotoViolation" Relationship="Self.FK_PhotoViolation_Violations" FromRole="Violations" ToRole="PhotoViolation" />
+  </EntityType>
+  <Association Name="FK_Cities_Region">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cities">
+        <PropertyRef Name="Region_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabelsMap_Cities">
+    <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+    <End Role="LabelsMap" Type="Self.LabelsMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabelsMap">
+        <PropertyRef Name="City_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Cities">
+    <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="City_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Messages">
+    <End Role="Messages" Type="Self.Messages" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Messages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="Message_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabelsMap_Violations">
+    <End Role="Violations" Type="Self.Violations" Multiplicity="0..1" />
+    <End Role="LabelsMap" Type="Self.LabelsMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Violations">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabelsMap">
+        <PropertyRef Name="Violation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messages_Violations">
+    <End Role="Violations" Type="Self.Violations" Multiplicity="0..1" />
+    <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Violations">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Messages">
+        <PropertyRef Name="Violation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhotoViolation_Violations">
+    <End Role="Violations" Type="Self.Violations" Multiplicity="0..1" />
+    <End Role="PhotoViolation" Type="Self.PhotoViolation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Violations">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PhotoViolation">
+        <PropertyRef Name="Violation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ObserverDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="Self.Cities" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" />
+    <EntitySet Name="LabelsMap" EntityType="Self.LabelsMap" />
+    <EntitySet Name="Messages" EntityType="Self.Messages" />
+    <EntitySet Name="PhotoViolation" EntityType="Self.PhotoViolation" />
+    <EntitySet Name="Region" EntityType="Self.Region" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="Violations" EntityType="Self.Violations" />
+    <AssociationSet Name="FK_Cities_Region" Association="Self.FK_Cities_Region">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Cities" EntitySet="Cities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabelsMap_Cities" Association="Self.FK_LabelsMap_Cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="LabelsMap" EntitySet="LabelsMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Messages" Association="Self.FK_Comments_Messages">
+      <End Role="Messages" EntitySet="Messages" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabelsMap_Violations" Association="Self.FK_LabelsMap_Violations">
+      <End Role="Violations" EntitySet="Violations" />
+      <End Role="LabelsMap" EntitySet="LabelsMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messages_Violations" Association="Self.FK_Messages_Violations">
+      <End Role="Violations" EntitySet="Violations" />
+      <End Role="Messages" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhotoViolation_Violations" Association="Self.FK_PhotoViolation_Violations">
+      <End Role="Violations" EntitySet="Violations" />
+      <End Role="PhotoViolation" EntitySet="PhotoViolation" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
