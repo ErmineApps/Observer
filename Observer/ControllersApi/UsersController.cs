@@ -35,50 +35,6 @@ namespace Observer.ControllersApi
             return Ok(users);
         }
 
-        ///регистрация нового пользователя
-        // POST: api/Users
-        [ResponseType(typeof(Users))]
-        public IHttpActionResult PostUsers(Users users)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var userOld = db.Users.Where(p => p.Name == users.Name);
-            if (userOld.ToList().Count == 0)
-            {
-                db.Users.Add(users);
-                db.SaveChanges();
-                return CreatedAtRoute("DefaultApi", new { id = users.Id }, users);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        ///авторизация пользователя
-        // POST: api/Users
-        [ResponseType(typeof(Users))]
-        public IHttpActionResult Authorization(Users users)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var userOld = db.Users.Where(p => p.Name == users.Name);
-            if (userOld.ToList().Count == 0)
-            {
-                db.Users.Add(users);
-                db.SaveChanges();
-                return CreatedAtRoute("DefaultApi", new { id = users.Id }, users);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUsers(int id, Users users)
@@ -114,6 +70,36 @@ namespace Observer.ControllersApi
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        /*
+        // POST: api/Users
+        [ResponseType(typeof(Users))]
+        public IHttpActionResult PostUsers(Users users)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Users.Add(users);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = users.Id }, users);
+        }*/
+
+        // POST: api/Users
+        [ResponseType(typeof(Users))]
+        public IHttpActionResult Registration(Users users)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Users.Add(users);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = users.Id }, users);
+        }
 
         // DELETE: api/Users/5
         [ResponseType(typeof(Users))]
